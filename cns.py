@@ -1,14 +1,25 @@
+# Ann CNS Controller
+# Copyright Neil Gupta 2014
+
 from xbee import ZigBee
-import serial
-import time
-import json
-import requests
-import re
+import serial, time, json, requests, re
 
-ser = serial.Serial('/dev/ttyUSB0', 9600)
+#### CONFIGURE HERE ####
 
-get_url = "http://ann.metamorphium.com/brains/\\x00\\x13\\xA2\\x00\\x40\\x68\\x2F\\xB6/instructions"
-post_url = "http://ann.metamorphium.com/brains/\\x00\\x13\\xA2\\x00\\x40\\x68\\x2F\\xB6/senses"
+# Enter your full xbee address here
+CNS_ADDRESS = "\\x00\\x13\\xA2\\x00\\x40\\x68\\x2F\\xB6"
+# Enter where your xbee is connected. On Pi's with only 2 USB ports, the lower one is USB0 and the higher one is USB1
+SERIAL_PORT = '/dev/ttyUSB0'
+# The default should be fine
+BAUD_RATE = 9600
+# Where is Ann server located? (Do NOT include the trailing slash)
+SERVER = "http://ann.metamorphium.com"
+
+#### END CONFIGURATION ####
+
+ser = serial.Serial(SERIAL_PORT, BAUD_RATE)
+get_url = SERVER + "/brains/" + CNS_ADDRESS + "/instructions"
+post_url = SERVER + "/brains/" + CNS_ADDRESS + "/senses"
 
 # Send incoming data to server for processing
 def message_received(data):
