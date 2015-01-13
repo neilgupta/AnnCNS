@@ -1,7 +1,7 @@
 #!/usr/bin/python
 
 # Ann CNS Controller
-# Copyright Neil Gupta 2014
+# Copyright Neil Gupta 2015
 import serial, time, json, requests, re
 
 #### CONFIGURE HERE ####
@@ -39,8 +39,9 @@ while True:
             ser.write(str(c))
           # xbee.send("tx", data=k['content'] + "\n", dest_addr_long=k['address'].decode('string_escape'), dest_addr="\xff\xff")
     time.sleep(2)
-  except KeyboardInterrupt:
-    break
+  except:
+    # wait 5 seconds if there's an exception
+    time.sleep(5)
 
 # halt() must be called before closing the serial
 # port in order to ensure proper thread shutdown
