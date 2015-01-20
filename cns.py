@@ -28,16 +28,18 @@ ser.write('d')
 
 while True:
   try:
-    # Check for new instructions every 2 seconds
+    # Check for new instructions
     r = requests.get(get_url)
     if r.status_code == 200:
       j = json.loads(r.content)
       if len(j) > 0:
         for k in j:
-          print k['content']
           for c in k['content']:
+            # Broadcast instruction
             ser.write(str(c))
-          # xbee.send("tx", data=k['content'] + "\n", dest_addr_long=k['address'].decode('string_escape'), dest_addr="\xff\xff")
+            # Wait for command to finish executing
+            time.sleep(k['timer'])
+    # Check again in 2 seconds
     time.sleep(2)
   except:
     # wait 5 seconds if there's an exception
